@@ -22,18 +22,26 @@ function generateTaskId(eventObj) {
 }
 
 // Todo: create a function to create a task card
-function createTaskCard(task) {
+function createTaskCard(task) { 
+
+    //create a div for the card
     const card = $('<div>').addClass("card");
 
-    const cardTitle = $('<h2>').text('cool');
+    //create h2 for text for title
+    const cardTitle = $('<h2>').text($titleInput);
 
-    const cardDescription = $('<p>>').text('nice');
+    //create p for text of descriptopm
+    const cardDescription = $('<p>>').text($descriptionInput);
 
-    card.append(cardTitle, cardDescription);
+    //create p for text of the date
+    const cardDate = $('<p>').text(dateFormat);
 
+    //add the three to the card div
+    card.append(cardTitle, cardDescription, cardDate);
+
+    //add to the todo section to test if works
     $('#todo-cards').append(card);
 }
-
 // Todo: create a function to render the task list and make cards draggable
 function renderTaskList() {
 
@@ -59,4 +67,5 @@ $(document).ready(function () {
     $('#date-input').datepicker();
 });
 
-console.log(createTaskCard());
+createTaskCard();
+createTaskCard();
