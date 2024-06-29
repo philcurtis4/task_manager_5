@@ -42,8 +42,16 @@ function createTaskCard(task) {
     //create p for text of the date
     const cardDate = $('<p>').text(task.date);
 
+    //create a delete button
+
+    const deleteBtn = $('<button type="button" id="delete-btn" class="btn btn-danger btn-sm">').text('Delete').css({
+        'width': '50%',
+        "display": "block",  // Set display to block
+        "margin": "0 auto"
+    });
+
     //add the three to the card div
-    card.append(cardTitle, cardDescription, cardDate);
+    card.append(cardTitle, cardDescription, cardDate, deleteBtn);
 
     //add to the todo section to test if works
     $('#todo-cards').append(card);
