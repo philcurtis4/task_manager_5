@@ -9,12 +9,8 @@ const $deleteBtn = $('#delete-btn');
 const $titleInput = $('#title-input');
 const $descriptionInput = $('#description-input');
 const $dateInput = $('#date-input');
-console.log($dateInput);
-const dateStr = $dateInput.val();
-const dateTime = dayjs(dateStr);
-const dateFormat = dateTime.format('MMM DD YYYY');
-console.log(dateStr);
-console.log(dateFormat);
+
+
 
 
 // Todo: create a function to generate a unique task id
@@ -39,7 +35,7 @@ function createTaskCard(task) {
         const day = dayjs(tasks.date)
 
         const taskEl = $(
-            `<article data-id="${eventObj.id}" class="mt-3 card drag ui-widget-content ${eventObj.date ===  dateFormat ? 'yellow' : ''} ${day.isAfter(eventObj.date) ? 'red' : ''}" >
+            `<article data-id="${eventObj.id}" class="mt-3 card drag ui-widget-content  ${day.isAfter(eventObj.date) ? 'red' : ''}" >
                 <h2>${eventObj.title}</h2>
                 <p>${eventObj.description}</p>
                 <p>${eventObj.date}</p>
@@ -69,7 +65,9 @@ function handleAddTask(event){
     // get value of each input
     const titleVal = $titleInput.val();
     const descriptionVal = $descriptionInput.val();
-    const dateVal = dateFormat;
+    const dateStr = $dateInput.val();
+    const dateTime = dayjs(dateStr);
+    const dateFormat = dateTime.format('MMM DD YYYY');
 
     //create an id for the task
     const taskId = generateTaskId();
@@ -78,7 +76,7 @@ function handleAddTask(event){
     const taskObj = {
         title: titleVal,
         description: descriptionVal,
-        date: dateVal,
+        date: dateStr,
         id: taskId,
         completed: '1'
     }
