@@ -29,6 +29,10 @@ function createTaskCard(task) {
     //grab tasks in local storage
     const tasks = JSON.parse(localStorage.getItem("tasks")) || [];
     
+    $('#todo-cards').empty();
+    $('#in-progress-cards').empty();
+    $('#done-cards').empty();
+   
     
     
     tasks.forEach(function (eventObj) {
@@ -36,7 +40,7 @@ function createTaskCard(task) {
         console.log(day);
         console.log(eventObj.date);
         const taskEl = $(
-            `<article data-id="${eventObj.id}" class="mt-3 card drag ui-widget-content  ${day.isAfter(eventObj.date) ? 'red' : ''} ${eventObj.date === day ? 'yellow' : ''}" >
+            `<article data-id="${eventObj.id}" class="mt-3 card drag ui-widget-content" >
                 <h2>${eventObj.title}</h2>
                 <p>${eventObj.description}</p>
                 <p>${eventObj.date}</p>
@@ -44,10 +48,17 @@ function createTaskCard(task) {
             </article>`
         )
         
-        const date = daysjs(eventObj.date);
-        const current = daysjs();
+        const date = dayjs(eventObj.date);
+        
+        if(date.isSame(day, 'day')) {
+            taskEl.addClass('alert');
+        }
 
-        console.log(date.diff(day, 'day'));
+        if(day.diff(date) > 0) {
+            taskEl.addClass('late');
+        }
+
+        
 
 
 

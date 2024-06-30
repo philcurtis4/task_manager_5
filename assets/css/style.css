@@ -18,11 +18,10 @@ body {
 .drag {
   z-index: 5;
 }
-
-.yellow {
-  background: yellow !important;
+article.alert {
+  background: rgb(197, 197, 62) !important;
 }
 
-.red {
-  background: red !important;
+article.late {
+  background: red;
 }
