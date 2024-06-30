@@ -32,10 +32,11 @@ function createTaskCard(task) {
     
     
     tasks.forEach(function (eventObj) {
-        const day = dayjs(tasks.date)
-
+        const day = dayjs();
+        console.log(day);
+        console.log(eventObj.date);
         const taskEl = $(
-            `<article data-id="${eventObj.id}" class="mt-3 card drag ui-widget-content  ${day.isAfter(eventObj.date) ? 'red' : ''}" >
+            `<article data-id="${eventObj.id}" class="mt-3 card drag ui-widget-content  ${day.isAfter(eventObj.date) ? 'red' : ''} ${eventObj.date === day ? 'yellow' : ''}" >
                 <h2>${eventObj.title}</h2>
                 <p>${eventObj.description}</p>
                 <p>${eventObj.date}</p>
@@ -43,6 +44,14 @@ function createTaskCard(task) {
             </article>`
         )
         
+        const date = daysjs(eventObj.date);
+        const current = daysjs();
+
+        console.log(date.diff(day, 'day'));
+
+
+
+
         if(eventObj.completed === '1'){
             $('#todo-cards').append(taskEl);
         }else if(eventObj.completed === '2') {
@@ -50,6 +59,8 @@ function createTaskCard(task) {
         }else {
             $("#done-cards").append(taskEl);
         }
+
+
     })
 
     
@@ -103,9 +114,22 @@ function handleAddTask(event){
 
 // Todo: create a function to handle deleting a task
 function handleDeleteTask(event){
-    
+    const btn = $(event.target);
+    const taskId = btn.parent('article').data('id');
 
+    const tasks = JSON.parse(localStorage.getItem('tasks')) || [];
 
+    const filtered = tasks.filter(function (taskObj) {
+        if(taskObj.id !== taskId) return true;
+    })
+
+    const tasksJson = JSON.stringify(filtered);
+
+    //save the task array to the local storag
+
+    localStorage.setItem('tasks', tasksJson);
+
+    btn.parent('article').remove();
 }
 
 // Todo: create a function to handle dropping a task into a new status lane
@@ -163,6 +187,8 @@ $(document).ready(function () {
 
     
     });
+
+    $('main').on('click', 'button.btn-danger', handleDeleteTask);
     
     $saveBtn.on('click', handleAddTask);
 });
