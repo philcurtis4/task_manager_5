@@ -14,3 +14,15 @@ body {
 .task-card:hover {
   cursor: grab;
 }
+
+.drag {
+  z-index: 5;
+}
+
+.yellow {
+  background: yellow !important;
+}
+
+.red {
+  background: red !important;
+}
