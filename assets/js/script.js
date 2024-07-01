@@ -24,6 +24,7 @@ function generateTaskId(eventObj) {
 
 
 
+
 // Todo: create a function to create a task card
 function createTaskCard(task) { 
     //grab tasks in local storage
