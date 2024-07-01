@@ -74,8 +74,30 @@ function createTaskCard(task) {
 
 
     })
+    $('.box'). droppable({
+        accept: 'article',
+        drop: handleDrop
+    });
+    
+    $('article').draggable({
+        opacity: 0.8,
+        
+        helper: function (eventObj) {
+            const el = $(eventObj.target)
+            let clone;
+
+            if(el.is('article')){
+                clone = el.clone();
+            }else{
+                clone = el.closest('article').clone();
+            }
+
+            clone.css('width', el.outerWidth());
+            return clone;
+        }
 
     
+    });
     }
 
 // Todo: create a function to render the task list and make cards draggable
@@ -172,34 +194,15 @@ function handleDrop(event, ui) {
 
 // Todo: when the page loads, render the task list, add event listeners, make lanes droppable, and make the due date field a date picker
 $(document).ready(function () {
+    
     $('#date-input').datepicker();
+    
 
-    $('.box'). droppable({
-        accept: 'article',
-        drop: handleDrop
-    });
+  
 
     createTaskCard();
-    $('article').draggable({
-        opacity: 0.8,
-        
-        helper: function (eventObj) {
-            const el = $(eventObj.target)
-            let clone;
-
-            if(el.is('article')){
-                clone = el.clone();
-            }else{
-                clone = el.closest('article').clone();
-            }
-
-            clone.css('width', el.outerWidth());
-            return clone;
-        }
-
     
-    });
-
+    
     $('main').on('click', 'button.btn-danger', handleDeleteTask);
     
     $saveBtn.on('click', handleAddTask);
