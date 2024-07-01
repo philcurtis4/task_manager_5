@@ -26,7 +26,7 @@ function generateTaskId(eventObj) {
 
 
 // Todo: create a function to create a task card
-function createTaskCard(task) { 
+function createTaskCard() { 
     //grab tasks in local storage
     const tasks = JSON.parse(localStorage.getItem("tasks")) || [];
     
@@ -47,6 +47,69 @@ function createTaskCard(task) {
                 <button type="button" id="delete-btn" class="btn btn-danger btn-sm">Delete</button>
             </article>`
         )
+       
+        
+
+        const date = dayjs(eventObj.date);
+        
+        if(date.isSame(day, 'day')) {
+            taskEl.addClass('alert');
+        }
+
+        if(day.diff(date) > 0) {
+            taskEl.addClass('late');
+        }
+
+
+
+
+
+        if(eventObj.completed === '1'){
+            $('#todo-cards').append(taskEl);
+            taskEl.removeClass('done');
+        }else if(eventObj.completed === '2') {
+            $('#in-progress-cards').append(taskEl)
+            taskEl.removeClass('done');
+        }else {
+            $("#done-cards").append(taskEl);
+            taskEl.addClass('done');
+        }
+
+        $('.box'). droppable({
+            accept: 'article',
+            drop: handleDrop
+        });
+        
+        $('article').draggable({
+            opacity: 0.8,
+            
+            helper: function (eventObj) {
+                const el = $(eventObj.target)
+                let clone;
+    
+                if(el.is('article')){
+                    clone = el.clone();
+                }else{
+                    clone = el.closest('article').clone();
+                }
+    
+                clone.css('width', el.outerWidth());
+                return clone;
+            }
+    
+        
+        });
+    })
+      
+    }
+
+// Todo: create a function to render the task list and make cards draggable
+function renderTaskList() {
+    const tasks = JSON.parse(localStorage.getItem("tasks")) || [];
+
+    tasks.forEach(function (eventObj) {
+        const day = dayjs();
+       
         
         const date = dayjs(eventObj.date);
         
@@ -59,49 +122,47 @@ function createTaskCard(task) {
         }
 
         
-
+        
 
 
 
         if(eventObj.completed === '1'){
             $('#todo-cards').append(taskEl);
-        }else if(eventObj.completed === '2') {
+            taskEl.removeClass('done');
+        }
+        else if(eventObj.completed === '2') {
             $('#in-progress-cards').append(taskEl)
+            taskEl.removeClass('done');
         }else {
             $("#done-cards").append(taskEl);
+            taskEl.addClass('done');
         }
 
-
-    })
-    $('.box'). droppable({
-        accept: 'article',
-        drop: handleDrop
-    });
-    
-    $('article').draggable({
-        opacity: 0.8,
+        $('.box'). droppable({
+            accept: 'article',
+            drop: handleDrop
+        });
         
-        helper: function (eventObj) {
-            const el = $(eventObj.target)
-            let clone;
-
-            if(el.is('article')){
-                clone = el.clone();
-            }else{
-                clone = el.closest('article').clone();
-            }
-
-            clone.css('width', el.outerWidth());
-            return clone;
-        }
-
+        $('article').draggable({
+            opacity: 0.8,
+            
+            helper: function (eventObj) {
+                const el = $(eventObj.target)
+                let clone;
     
-    });
-    }
-
-// Todo: create a function to render the task list and make cards draggable
-function renderTaskList() {
-
+                if(el.is('article')){
+                    clone = el.clone();
+                }else{
+                    clone = el.closest('article').clone();
+                }
+    
+                clone.css('width', el.outerWidth());
+                return clone;
+            }
+    
+        
+        });
+    })
 }
 
 // Todo: create a function to handle adding a new task
@@ -124,7 +185,7 @@ function handleAddTask(event){
         id: taskId,
         completed: '1'
     }
-    console.log(taskObj);
+    
     //pull old data from local or have empty array
     const tasks = JSON.parse(localStorage.getItem('tasks')) || [];
 
@@ -143,6 +204,7 @@ function handleAddTask(event){
 
     $('#exampleModal').modal('hide');
     createTaskCard();
+    
 }
 
 // Todo: create a function to handle deleting a task
@@ -169,7 +231,7 @@ function handleDeleteTask(event){
 function handleDrop(event, ui) {
     const box = $(event.target);
     const maybe = $(event.target.children);
-    console.log(box);
+    
     const article = $(ui.draggable[0])
     const taskId = article.data('id');
     
@@ -198,7 +260,7 @@ $(document).ready(function () {
     
     $('#date-input').datepicker();
     
-
+    //renderTaskList();
   
 
     createTaskCard();

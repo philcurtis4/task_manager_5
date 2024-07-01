@@ -25,3 +25,7 @@ article.alert {
 article.late {
   background: rgb(224, 99, 99);
 }
+
+article.done {
+  background: rgb(78, 206, 78) !important;
+}
