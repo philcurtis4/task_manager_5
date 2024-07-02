@@ -34,7 +34,7 @@ function createTaskCard(eventObj) {
     )
 
     const date = dayjs(eventObj.date);
-
+if(eventObj.status !== 'done') {
     if (date.isSame(day, 'day')) {
         taskEl.addClass('alert');
     }
@@ -42,7 +42,7 @@ function createTaskCard(eventObj) {
     if (day.diff(date) > 0) {
         taskEl.addClass('late');
     }
-
+}
    
 
 
